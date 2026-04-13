@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keep_my_money/home_tab.dart';
 import 'package:keep_my_money/widgets/nav_bar.dart';
 
 void main() {
@@ -23,6 +24,8 @@ class MyApp extends StatelessWidget {
 
 class HomePage extends StatefulWidget {
 
+  const HomePage({super.key});
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -36,7 +39,7 @@ class _HomePageState extends State<HomePage> {
       body: IndexedStack(
         index: _currentIndex,
         children: const [
-          Center(child: Text('메인'),),
+          HomeTab(),
           Center(child: Text('카테고리'),),
           Center(child: Text('설정'),),
         ],
