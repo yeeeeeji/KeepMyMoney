@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:keep_my_money/widgets/budget_status_tile.dart';
 
 class HomeTab extends StatefulWidget {
 
@@ -17,7 +18,8 @@ class _HomeTabState extends State<HomeTab> {
         padding: const EdgeInsets.fromLTRB(0, 150, 0, 40),
         child: Column(
           children: [
-            _TodayBlock(date: DateTime.now(),)
+            _TodayBlock(date: DateTime.now(),),
+            BudgetStatusTile(totalAmount: 10000, spentAmount: 5000)
           ],
         ),
       ),
@@ -35,14 +37,14 @@ class _TodayBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String today = DateFormat("M월 d일").format(date);
+    final String today = DateFormat("M월 d일").format(date);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           today,
-          style: const TextStyle(fontSize: 18, color: Colors.black),
+          style: const TextStyle(fontSize: 18, color: Colors.black87),
         )
       ],
     );
