@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:keep_my_money/home_tab.dart';
 import 'package:keep_my_money/widgets/buttons/expense_fab.dart';
 import 'package:keep_my_money/widgets/nav_bar.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
