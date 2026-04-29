@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:keep_my_money/providers/expense_notifier.dart';
 import 'package:keep_my_money/utils/extensions.dart';
 
-class BudgetStatusTile extends StatelessWidget {
-  final int totalAmount;
-  final int spentAmount;
-
-  const BudgetStatusTile({
-    super.key,
-    required this.totalAmount,
-    required this.spentAmount,
-  });
+class BudgetStatusTile extends ConsumerWidget {
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final expenses = ref.watch(expenseProvider);
+
+    final int totalAmount = 100000;
+    final spentAmount = expenses.fold(0, (sum, item) => sum + item.amount);
     final int balance = totalAmount - spentAmount;
-    final double progress = balance / totalAmount;
+    final double progress = (balance / totalAmount).clamp(0.0, 1.0);
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(80, 0, 80, 0),
       child: Column(

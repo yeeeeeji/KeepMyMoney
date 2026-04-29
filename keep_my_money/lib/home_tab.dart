@@ -20,7 +20,7 @@ class _HomeTabState extends State<HomeTab> {
         child: Column(
           children: [
             _TodayBlock(date: DateTime.now(),),
-            BudgetStatusTile(totalAmount: 10000, spentAmount: 5000)
+            BudgetStatusTile()
           ],
         ),
       ),
