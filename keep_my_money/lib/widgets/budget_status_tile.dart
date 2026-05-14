@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:keep_my_money/providers/budget_notifier.dart';
 import 'package:keep_my_money/providers/expense_notifier.dart';
 import 'package:keep_my_money/utils/extensions.dart';
 
 class BudgetStatusTile extends ConsumerWidget {
+  const BudgetStatusTile({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final expenses = ref.watch(expenseProvider);
+    final budget = ref.watch(budgetProvider);
 
-    final int totalAmount = 100000;
-    final spentAmount = expenses.fold(0, (sum, item) => sum + item.amount);
+    final int totalAmount = budget.totalAmount;
+    final int spentAmount = expenses.fold(0, (sum, item) => sum + item.amount);
     final int balance = totalAmount - spentAmount;
-    final double progress = (balance / totalAmount).clamp(0.0, 1.0);
+
+    final double progress = totalAmount == 0
+        ? 0
+        : (spentAmount / totalAmount).clamp(0.0, 1.0);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(80, 0, 80, 0),
@@ -22,11 +28,12 @@ class BudgetStatusTile extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(balance.toWon),
-              Text("/"),
-              Text(totalAmount.toWon)
+              const Text("/"),
+              Text(totalAmount.toWon),
             ],
           ),
-          SizedBox(child: _ProgressBar(progress: progress))
+          const SizedBox(height: 8),
+          SizedBox(child: _ProgressBar(progress: progress)),
         ],
       ),
     );
@@ -36,10 +43,7 @@ class BudgetStatusTile extends ConsumerWidget {
 class _ProgressBar extends StatelessWidget {
   final double progress;
 
-  const _ProgressBar({
-    super.key,
-    required this.progress
-  });
+  const _ProgressBar({super.key, required this.progress});
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +53,12 @@ class _ProgressBar extends StatelessWidget {
         builder: (context, constraints) {
           return Stack(
             children: [
-              _BarBase(isBackground: true, width: constraints.maxWidth,),
-              _BarBase(progress: progress, width: constraints.maxWidth,),
+              _BarBase(isBackground: true, width: constraints.maxWidth),
+              _BarBase(progress: progress, width: constraints.maxWidth),
             ],
           );
-      }),
+        },
+      ),
     );
   }
 }
@@ -73,14 +78,16 @@ class _BarBase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color barColor = isBackground
-      ? Colors.grey[200]!
-      : progress > 0.8 ? Colors.redAccent : Colors.green;
+        ? Colors.grey[200]!
+        : progress > 0.8
+        ? Colors.redAccent
+        : Colors.green;
 
     return Container(
       width: width * progress.clamp(0.0, 1.0),
       decoration: BoxDecoration(
         color: barColor,
-        borderRadius: BorderRadius.circular(5)
+        borderRadius: BorderRadius.circular(5),
       ),
     );
   }
