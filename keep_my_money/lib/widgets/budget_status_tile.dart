@@ -18,7 +18,7 @@ class BudgetStatusTile extends ConsumerWidget {
 
     final double progress = totalAmount == 0
         ? 0
-        : (spentAmount / totalAmount).clamp(0.0, 1.0);
+        : (balance / totalAmount).clamp(0.0, 1.0);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(80, 0, 80, 0),
@@ -79,9 +79,11 @@ class _BarBase extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color barColor = isBackground
         ? Colors.grey[200]!
-        : progress > 0.8
-        ? Colors.redAccent
-        : Colors.green;
+        : progress > 0.7
+        ? Colors.green
+        : progress > 0.3
+        ? Colors.orangeAccent
+        : Colors.redAccent;
 
     return Container(
       width: width * progress.clamp(0.0, 1.0),

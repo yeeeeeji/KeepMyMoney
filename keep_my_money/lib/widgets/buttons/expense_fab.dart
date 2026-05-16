@@ -11,7 +11,7 @@ class ExpenseFab extends ConsumerWidget {
       onPressed: () {
         _showTransactionModal(context, ref);
       },
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white,
       child: const Icon(Icons.add, color: Colors.black87),
     );
   }
